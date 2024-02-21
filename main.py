@@ -40,26 +40,31 @@ def convert(base_currency, converted_currency, amount):
 
     # Converts amount to another currency
     new_amount = amount * conversion_rate
-
     return new_amount
 
 def currency_convert():
     base_currency = currency_combobox_1.get()
     convert_currency = currency_combobox_2.get()
-    amount = input_entry_1.get()
-    amount = float(amount)
-    if amount < 0:
-        my_label = ctk.CTkLabel(frame, font=("Arial", 18))
-        my_label.configure(text="Kwota NIE moze byc mniejsza od 0 !")
+    amount = input_entry_1.get().strip()  # Usuń białe znaki z przodu i z tyłu
+    if not amount:  # Jeśli amount jest puste po usunięciu białych znaków
+        my_label = ctk.CTkLabel(frame, font=("Arial", 18), text_color="red")
+        my_label.configure(text="NIE podano kwoty!")
         my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
         app.after(2000, lambda: my_label.destroy()) 
     else:
-        my_label = ctk.CTkLabel(frame, font=("Arial", 18))
-        my_label.configure(text="Przeliczono")
-        my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
-        app.after(2000, lambda: my_label.destroy()) 
-        result = convert(base_currency, convert_currency, amount)
-        entry_variable.set(result)
+        float_amount = float(amount)
+        if float_amount < 0:
+            my_label = ctk.CTkLabel(frame, font=("Arial", 18))
+            my_label.configure(text="Kwota NIE może być mniejsza od 0!")
+            my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
+            app.after(2000, lambda: my_label.destroy()) 
+        else:
+            my_label = ctk.CTkLabel(frame, font=("Arial", 18))
+            my_label.configure(text="Przeliczono")
+            my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
+            app.after(2000, lambda: my_label.destroy()) 
+            result = convert(base_currency, convert_currency, float_amount)
+            entry_variable.set(result)
 
     # # sprawdzenie
     # print(base_currency)
