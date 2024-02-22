@@ -3,6 +3,7 @@ import customtkinter as ctk
 import re
 import requests
 import pickle
+import socket
 
 
 ctk.set_appearance_mode("dark")
@@ -26,6 +27,29 @@ class CustomEntry(ctk.CTkEntry):
         # Dozwolone są cyfry i kropki w Entryboxie input_entry_1
         return re.match(r'^[0-9.]*$', new_text) is not None
     
+
+def internet_connection_label(frame_name):
+    def internet_connection():
+        try:
+            socket.create_connection(("Google.com", 80))
+            return "Online"       
+        except OSError:
+            return "Offline"
+        
+    # Internet connection caption    
+    status = ctk.CTkLabel(master=frame, text = "Status połączenia:  ", font=("Arial", 13))
+    status.place(relx=0.8, rely=0.9, anchor=tk.CENTER)
+
+    online_status_text = internet_connection()
+    online_status = ctk.CTkLabel(master=frame, text = online_status_text)
+    online_status.place(relx=0.91, rely=0.9, anchor=tk.CENTER)
+
+    # set the color
+    if online_status_text == "Online":
+       online_status.configure(text_color="green", font=("Arial", 13))
+    else:
+        online_status.configure(text_color="red", font=("Arial", 13))
+
 def convert(base_currency, converted_currency, amount):
     # Where base_currency is the  currency you want to use, converted_currency is the currency that you want to convert to
     url = f"https://v6.exchangerate-api.com/v6/aac2926c33cc7fb0d24f867e/pair/{base_currency}/{converted_currency}"
@@ -82,8 +106,7 @@ def currency_convert():
                 # Zapisanie zaktualizowanej wartości requests_counter do pliku
                 with open("request_counter.pkl", "wb") as file:
                     pickle.dump(requests_counter, file)
-                
-
+            
     #    sprawdzenie
     # print(base_currency)
     # print(convert_currency)
@@ -114,6 +137,8 @@ frame.pack(pady=25)
 
 main_label = ctk.CTkLabel(master=frame, text="Przelicznik walut", font=("Arial", 26), text_color="red")
 main_label.place(relx=0.5, rely=0.08, anchor=tk.CENTER)
+
+internet_connection_label(frame)
 
 button = ctk.CTkButton(master=frame, text="Przelicz waluty", command=currency_convert, corner_radius=50)
 button.place(relx=0.85, rely=0.25, anchor=tk.CENTER)
