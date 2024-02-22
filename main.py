@@ -2,6 +2,8 @@ import tkinter as tk
 import customtkinter as ctk
 import re
 import requests
+import pickle
+
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("green")
@@ -43,6 +45,10 @@ def convert(base_currency, converted_currency, amount):
     return new_amount
 
 def currency_convert():
+    # Wczytanie wartości requests_counter z pliku
+    with open("request_counter.pkl", "rb") as file:
+        requests_counter = pickle.load(file)
+
     base_currency = currency_combobox_1.get()
     convert_currency = currency_combobox_2.get()
     amount = input_entry_1.get().strip()  # Usuń białe znaki z przodu i z tyłu
@@ -59,18 +65,31 @@ def currency_convert():
             my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
             app.after(2000, lambda: my_label.destroy()) 
         else:
-            my_label = ctk.CTkLabel(frame, font=("Arial", 18))
-            my_label.configure(text="Przeliczono")
-            my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
-            app.after(2000, lambda: my_label.destroy()) 
-            result = convert(base_currency, convert_currency, float_amount)
-            entry_variable.set(result)
+            if requests_counter > 1400:
+                my_label = ctk.CTkLabel(frame, font=("Arial", 18), text_color="red")
+                my_label.configure(text="Przekroczono limit zapytań ! ")
+                my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
+                app.after(2000, lambda: my_label.destroy()) 
+            else:
+                my_label = ctk.CTkLabel(frame, font=("Arial", 18))
+                my_label.configure(text="Przeliczono")
+                my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
+                app.after(2000, lambda: my_label.destroy()) 
+                result = convert(base_currency, convert_currency, float_amount)
+                entry_variable.set(result)
+                 # Inkrementacja wartości requests_counter
+                requests_counter += 1
+                # Zapisanie zaktualizowanej wartości requests_counter do pliku
+                with open("request_counter.pkl", "wb") as file:
+                    pickle.dump(requests_counter, file)
+                
 
-    # # sprawdzenie
+    #    sprawdzenie
     # print(base_currency)
     # print(convert_currency)
     # print(amount)
-
+    # print(type(requests_counter))
+                    
 entry_variable = ctk.StringVar()
 
 def clearFunction():
@@ -125,3 +144,5 @@ switch_button = ctk.CTkSwitch(frame, text='Color Mode', command=change_color_mod
 switch_button.place(relx=0.2, rely = 0.9, anchor=tk.CENTER)
 
 app.mainloop()
+
+
