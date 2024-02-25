@@ -9,7 +9,7 @@ import re
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("green")
 ctk.deactivate_automatic_dpi_awareness()
-
+  
 app = ctk.CTk()
 app.title("Currency App")
 app.iconbitmap('dollar.ico')
@@ -49,6 +49,7 @@ def internet_connection_label(frame_name):
     else:
         online_status.configure(text_color="red", font=("Arial", 13))
 
+
 def convert_with_API(base_currency, converted_currency, amount):
     # Where base_currency is the  currency you want to use, converted_currency is the currency that you want to convert to
     url = f"https://v6.exchangerate-api.com/v6/aac2926c33cc7fb0d24f867e/pair/{base_currency}/{converted_currency}"
@@ -62,6 +63,7 @@ def convert_with_API(base_currency, converted_currency, amount):
     # Converts amount to another currency
     new_amount = amount * conversion_rate
     return new_amount
+
 
 def currency_convert():
     # Wczytanie wartości requests_counter z pliku
@@ -116,6 +118,7 @@ def clearFunction():
     input_entry_1.delete(0, ctk.END)
     input_entry_2.delete(0, ctk.END)
     
+
 def change_color_mode():
     global mode
     if mode == 'dark':
@@ -156,13 +159,14 @@ input_entry_2.place(relx=0.44, rely=0.46, anchor=tk.CENTER)
 currency_combobox_2 = ctk.CTkComboBox(frame, values=currency_options, width=100, height=40, dropdown_hover_color='red',button_hover_color="red", dropdown_fg_color="black", dropdown_text_color="white")
 currency_combobox_2.place(relx=0.2, rely=0.46, anchor=ctk.CENTER)
 
-
 clear_button = ctk.CTkButton(frame, text="Wyczyść", command=clearFunction, corner_radius=50, fg_color='red', hover_color='orange')
 clear_button.place(relx=0.85, rely=0.5, anchor=tk.CENTER)
 
-
 switch_button = ctk.CTkSwitch(frame, text='Color Mode', command=change_color_mode)
 switch_button.place(relx=0.2, rely = 0.9, anchor=tk.CENTER)
+
+# requeest_label = ctk.CTkLabel(frame, text=f"Aktualna ilość zapytań API:  {requests_counter}")
+# requeest_label.place(relx=0.775, rely=0.95, anchor=tk.CENTER)
 
 app.mainloop()
 
