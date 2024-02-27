@@ -1,29 +1,24 @@
 import tkinter as tk
-from tkinter import ttk
 import customtkinter as ctk
 import requests
 import pickle
 import socket
 import re
+                
 
-
-ctk.set_appearance_mode("dark") 
+ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("green")
 ctk.deactivate_automatic_dpi_awareness()
-  
+
 app = ctk.CTk()
 app.title("Currency App")
 app.iconbitmap('dollar.ico')
 app.geometry("750x450")
-style = ttk.Style(app)
-app.tk.call("source", "Theme/forest-light.tcl")
-app.tk.call("source", "Theme/forest-dark.tcl")
-style.theme_use("forest-dark")
 
 mode = 'dark'
 
 class CustomEntry(ctk.CTkEntry):
-    def __init__(self, master=None, **kwargs):  
+    def __init__(self, master=None, **kwargs):
         super().__init__(master, **kwargs)
         self.configure(validate="key")
         self.configure(validatecommand=(self.register(self.validate_input), '%P'))
@@ -31,7 +26,6 @@ class CustomEntry(ctk.CTkEntry):
     def validate_input(self, new_text):
         # Dozwolone są cyfry i kropki w Entryboxie input_entry_1
         return re.match(r'^[0-9.]*$', new_text) is not None
-    
 
 def internet_connection_label(frame_name):
     def internet_connection():
@@ -110,7 +104,7 @@ def currency_convert():
                 requeest_label = ctk.CTkLabel(frame, text=f"Aktualna ilość zapytań API:  {requests_counter}")
                 requeest_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
                 app.after(2000, lambda: requeest_label.destroy()) 
-            
+                
     #    sprawdzenie
     # print(base_currency)
     # print(convert_currency)
@@ -128,34 +122,12 @@ def change_color_mode():
     global mode
     if mode == 'dark':
         ctk.set_appearance_mode("light")
-        style.theme_use("forest-light")
-        mode = "light"
+        mode = 'light'
     else:
         ctk.set_appearance_mode("dark")
-        style.theme_use("forest-dark")
-        mode = "dark"
+        mode = 'dark'
 
-
-
-currency_options = [
-    "USD", "EUR", "GBP", "PLN", "CHF", "NOK", "SEK", "CZK", "CNY", "JPY", 
-    "AUD", "CAD", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", 
-    "AZN", "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", 
-    "BRL", "BSD", "BTN", "BWP", "BYN", "BZD", "CDF", "CLP", "COP", "CRC",
-    "CUP", "CVE", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "EUR",
-    "FJD", "FKP", "FOK", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF", "GTQ",
-    "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", 
-    "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "KES", "KGS", "KHR", "KID", 
-    "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LKR", "LRD", "LSL", "LYD", 
-    "MAD", "KMF", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP", "MRU", "MUR", 
-    "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NPR", "NZD", 
-    "OMR", "PAB", "PEN", "PGK", "PHP", "PKR", "PYG", "QAR", "RON", "RSD", 
-    "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SGD", "SHP", "SLE", "SOS", 
-    "SRD", "SSP", "STN", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", 
-    "TRY", "TTD", "TVD", "TWD", "TZS", "UAH", "UGX", "AED", "UYU", "UZS", 
-    "VES", "VND", "VUV", "WST", "XAF", "XCD", "XDR", "XOF", "XPF", "YER", 
-    "ZAR", "ZMW", "ZWL"
-]
+currency_options = ["USD", "EUR", "GBP", "PLN", "CHF", "NOK", "SEK", "CZK", "CNY", "JPY", "AUD", "CAD"]
 
 frame = ctk.CTkFrame(master=app, width=700, height=450)
 frame.pack(pady=25)
@@ -171,9 +143,9 @@ button.place(relx=0.85, rely=0.25, anchor=tk.CENTER)
 output_label = ctk.CTkLabel(master=frame, text="Przelicz z:", height=5, width=5)
 output_label.place(relx=0.2, rely=0.18, anchor=tk.CENTER)
 input_entry_1 = CustomEntry(master=frame, placeholder_text="Podaj kwote do wymiany", width=170, height=40)
-input_entry_1.place(relx=0.47, rely=0.26, anchor=tk.CENTER)
-currency_combobox_1 = ttk.Combobox(frame, values=currency_options, width=7, height=10, font=("Arial", 14))                     
-currency_combobox_1.place(relx=0.227, rely=0.26, anchor=tk.CENTER)
+input_entry_1.place(relx=0.44, rely=0.26, anchor=tk.CENTER)
+currency_combobox_1 = ctk.CTkComboBox(frame, values=currency_options, width=100, height=40, dropdown_hover_color='red',button_hover_color="red", dropdown_fg_color="black", dropdown_text_color="white")                      
+currency_combobox_1.place(relx=0.2, rely=0.26, anchor=tk.CENTER)
 
 output_label = ctk.CTkLabel(master=frame, text="Wynik: ")
 output_label.place(relx=0.37, rely=0.38, anchor=tk.CENTER)
@@ -181,13 +153,13 @@ output_label.place(relx=0.37, rely=0.38, anchor=tk.CENTER)
 output_label = ctk.CTkLabel(master=frame, text="Przelicz na:")
 output_label.place(relx=0.2, rely=0.38, anchor=tk.CENTER)
 input_entry_2 = ctk.CTkEntry(master=frame, width=170, state='disable',textvariable=entry_variable, height=40)
-input_entry_2.place(relx=0.47, rely=0.46, anchor=tk.CENTER)
-currency_combobox_2 = ttk.Combobox(frame, values=currency_options, width=7, height=10, font=("Arial", 14)) 
-currency_combobox_2.place(relx=0.227, rely=0.46, anchor=ctk.CENTER)
+input_entry_2.place(relx=0.44, rely=0.46, anchor=tk.CENTER)
+currency_combobox_2 = ctk.CTkComboBox(frame, values=currency_options, width=100, height=40, dropdown_hover_color='red',button_hover_color="red", dropdown_fg_color="black", dropdown_text_color="white")
+currency_combobox_2.place(relx=0.2, rely=0.46, anchor=ctk.CENTER)
 
 
 clear_button = ctk.CTkButton(frame, text="Wyczyść", command=clearFunction, corner_radius=50, fg_color='red', hover_color='orange')
-clear_button.place(relx=0.85, rely=0.46, anchor=tk.CENTER)
+clear_button.place(relx=0.85, rely=0.5, anchor=tk.CENTER)
 
 
 switch_button = ctk.CTkSwitch(frame, text='Color Mode', command=change_color_mode)
