@@ -7,7 +7,7 @@ import socket
 import re
 
 
-ctk.set_appearance_mode("dark")
+ctk.set_appearance_mode("dark") 
 ctk.set_default_color_theme("green")
 ctk.deactivate_automatic_dpi_awareness()
   
