@@ -96,7 +96,6 @@ def currency_convert():
                 app.after(2000, lambda: my_label.destroy()) 
                 result = convert_with_API(base_currency, convert_currency, float_amount)
                 entry_variable.set(result)
-                 # Inkrementacja wartości requests_counter
                 requests_counter += 1
                 # Zapisanie zaktualizowanej wartości requests_counter do pliku
                 with open("request_counter.pkl", "wb") as file:
@@ -144,7 +143,7 @@ output_label = ctk.CTkLabel(master=frame, text="Przelicz z:", height=5, width=5)
 output_label.place(relx=0.2, rely=0.18, anchor=tk.CENTER)
 input_entry_1 = CustomEntry(master=frame, placeholder_text="Podaj kwote do wymiany", width=170, height=40)
 input_entry_1.place(relx=0.44, rely=0.26, anchor=tk.CENTER)
-currency_combobox_1 = ctk.CTkComboBox(frame, values=currency_options, width=100, height=40, dropdown_hover_color='red',button_hover_color="red", dropdown_fg_color="black", dropdown_text_color="white")                      
+currency_combobox_1 = ctk.CTkComboBox(frame, values=currency_options, width=100, height=40, dropdown_hover_color='red',button_hover_color="red", dropdown_fg_color="black", dropdown_text_color="white", state="readonly")                      
 currency_combobox_1.place(relx=0.2, rely=0.26, anchor=tk.CENTER)
 
 output_label = ctk.CTkLabel(master=frame, text="Wynik: ")
@@ -154,7 +153,7 @@ output_label = ctk.CTkLabel(master=frame, text="Przelicz na:")
 output_label.place(relx=0.2, rely=0.38, anchor=tk.CENTER)
 input_entry_2 = ctk.CTkEntry(master=frame, width=170, state='disable',textvariable=entry_variable, height=40)
 input_entry_2.place(relx=0.44, rely=0.46, anchor=tk.CENTER)
-currency_combobox_2 = ctk.CTkComboBox(frame, values=currency_options, width=100, height=40, dropdown_hover_color='red',button_hover_color="red", dropdown_fg_color="black", dropdown_text_color="white")
+currency_combobox_2 = ctk.CTkComboBox(frame, values=currency_options, width=100, height=40, dropdown_hover_color='red',button_hover_color="red", dropdown_fg_color="black", dropdown_text_color="white", state="readonly")
 currency_combobox_2.place(relx=0.2, rely=0.46, anchor=ctk.CENTER)
 
 
