@@ -92,7 +92,7 @@ def currency_convert():
             else:
                 my_label = ctk.CTkLabel(frame, font=("Arial", 18))
                 my_label.configure(text="Przeliczono")
-                my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
+                my_label.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
                 app.after(2000, lambda: my_label.destroy()) 
                 result = convert_with_API(base_currency, convert_currency, float_amount)
                 entry_variable.set(result)
@@ -158,7 +158,7 @@ currency_combobox_2.place(relx=0.2, rely=0.46, anchor=ctk.CENTER)
 
 
 clear_button = ctk.CTkButton(frame, text="Wyczyść", command=clearFunction, corner_radius=50, fg_color='red', hover_color='orange')
-clear_button.place(relx=0.85, rely=0.5, anchor=tk.CENTER)
+clear_button.place(relx=0.85, rely=0.46, anchor=tk.CENTER)
 
 
 switch_button = ctk.CTkSwitch(frame, text='Color Mode', command=change_color_mode)
