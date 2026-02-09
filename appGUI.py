@@ -1,5 +1,8 @@
-import tkinter as tk
 from tkinter import ttk
+from dotenv import load_dotenv
+
+import os
+import tkinter as tk
 import customtkinter as ctk
 import requests
 import pickle
@@ -10,18 +13,21 @@ import re
 ctk.set_appearance_mode("dark") 
 ctk.set_default_color_theme("green")
 ctk.deactivate_automatic_dpi_awareness()
-  
+
+mode = 'dark'
+
 app = ctk.CTk()
-app.title("Currency App")
-app.iconbitmap('dollar.ico')
+app.title("Currency Exchange App")
+app.iconbitmap('images/dollar.ico')
 app.geometry("750x450")
 style = ttk.Style(app)
 app.tk.call("source", "Theme/forest-light.tcl")
 app.tk.call("source", "Theme/forest-dark.tcl")
-style.theme_use("forest-dark")
+style.theme_use(f"forest-{mode}")
+app.resizable(False, False)
 
-mode = 'dark'
 
+    # Classes
 class CustomEntry(ctk.CTkEntry):
     def __init__(self, master=None, **kwargs):  
         super().__init__(master, **kwargs)
@@ -33,31 +39,39 @@ class CustomEntry(ctk.CTkEntry):
         return re.match(r'^[0-9.]*$', new_text) is not None
     
 
-def internet_connection_label(frame_name):
-    def internet_connection():
+
+# ===========================================================================================================
+    # Functions
+def internet_connection():
         try:
             socket.create_connection(("Google.com", 80))
             return "Online"       
+        
         except OSError:
             return "Offline"
         
-    # Internet connection caption    
-    status = ctk.CTkLabel(master=frame, text = "Status połączenia: ", font=("Arial", 13))
-    status.place(relx=0.8, rely=0.9, anchor=tk.CENTER)
 
+def internet_connection_label(frame_name):
     online_status_text = internet_connection()
     online_status = ctk.CTkLabel(master=frame, text = online_status_text)
     online_status.place(relx=0.91, rely=0.9, anchor=tk.CENTER)
-    # set the color
+    
+    # set the text color
     if online_status_text == "Online":
        online_status.configure(text_color="green", font=("Arial", 13))
+
     else:
+        button.place_forget()
+        button_disable.place(relx=0.85, rely=0.25, anchor=tk.CENTER)
         online_status.configure(text_color="red", font=("Arial", 13))
+
+
 
 def convert_with_API(base_currency, converted_currency, amount):
     # Where base_currency is the  currency you want to use, converted_currency is the currency that you want to convert to
-    url = f"https://v6.exchangerate-api.com/v6/aac2926c33cc7fb0d24f867e/pair/{base_currency}/{converted_currency}"
-    # Making  request
+    load_dotenv()
+    url = os.getenv("API_KEY")
+    
     response = requests.get(url)
     # Convert data
     data = response.json() # converts JSON content into Python-readable content
@@ -68,16 +82,18 @@ def convert_with_API(base_currency, converted_currency, amount):
     new_amount = amount * conversion_rate
     return new_amount
 
+
+
 def currency_convert():
-    # Wczytanie wartości requests_counter z pliku
+    # Read a value from requests_counter file
     with open("request_counter.pkl", "rb") as file:
         requests_counter = pickle.load(file)
 
     base_currency = currency_combobox_1.get()
     convert_currency = currency_combobox_2.get()
-    amount = input_entry_1.get().strip()  # Usuń białe znaki z przodu i z tyłu
-
-    if not amount:  # Jeśli amount jest puste po usunięciu białych znaków
+    amount = input_entry_1.get().strip()
+    
+    if not amount or not base_currency or not convert_currency:  # Jeśli amount jest puste po usunięciu białych znaków
         my_label = ctk.CTkLabel(frame, font=("Arial", 18), text_color="red")
         my_label.configure(text="NIE podano kwoty!")
         my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
@@ -98,11 +114,10 @@ def currency_convert():
             else:
                 my_label = ctk.CTkLabel(frame, font=("Arial", 18))
                 my_label.configure(text="Przeliczono")
-                my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
+                my_label.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
                 app.after(2000, lambda: my_label.destroy()) 
                 result = convert_with_API(base_currency, convert_currency, float_amount)
                 entry_variable.set(result)
-                 # Inkrementacja wartości requests_counter
                 requests_counter += 1
                 # Zapisanie zaktualizowanej wartości requests_counter do pliku
                 with open("request_counter.pkl", "wb") as file:
@@ -110,8 +125,10 @@ def currency_convert():
                 requeest_label = ctk.CTkLabel(frame, text=f"Aktualna ilość zapytań API:  {requests_counter}")
                 requeest_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
                 app.after(2000, lambda: requeest_label.destroy()) 
-            
-    #    sprawdzenie
+
+        
+
+    #    test
     # print(base_currency)
     # print(convert_currency)
     # print(amount)
@@ -119,10 +136,15 @@ def currency_convert():
                     
 entry_variable = ctk.StringVar()
 
+
 def clearFunction():
     entry_variable.set("")
     input_entry_1.delete(0, ctk.END)
-    input_entry_2.delete(0, ctk.END)
+    convercy_output_entrybox.delete(0, ctk.END)
+    # currency_combobox_1.set("")
+    # currency_combobox_2.set("")
+    
+
     
 def change_color_mode():
     global mode
@@ -157,32 +179,44 @@ currency_options = [
     "ZAR", "ZMW", "ZWL"
 ]
 
+# ================================================================== GUI PART ===========================================================================
+
 frame = ctk.CTkFrame(master=app, width=700, height=450)
 frame.pack(pady=25)
 
 main_label = ctk.CTkLabel(master=frame, text="Przelicznik walut", font=("Arial", 26), text_color="red")
 main_label.place(relx=0.5, rely=0.08, anchor=tk.CENTER)
 
-internet_connection_label(frame)
 
 button = ctk.CTkButton(master=frame, text="Przelicz waluty", command=currency_convert, corner_radius=50)
 button.place(relx=0.85, rely=0.25, anchor=tk.CENTER)
 
+
+button_disable = ctk.CTkButton(master=frame, text="Przelicz waluty", corner_radius=50, state="disable", fg_color='grey')
+
+
 output_label = ctk.CTkLabel(master=frame, text="Przelicz z:", height=5, width=5)
 output_label.place(relx=0.2, rely=0.18, anchor=tk.CENTER)
+
 input_entry_1 = CustomEntry(master=frame, placeholder_text="Podaj kwote do wymiany", width=170, height=40)
 input_entry_1.place(relx=0.47, rely=0.26, anchor=tk.CENTER)
-currency_combobox_1 = ttk.Combobox(frame, values=currency_options, width=7, height=10, font=("Arial", 14))                     
+
+currency_combobox_1 = ttk.Combobox(frame, values=currency_options, width=7, height=10, font=("Arial", 14), state="readonly")                     
 currency_combobox_1.place(relx=0.227, rely=0.26, anchor=tk.CENTER)
 
 output_label = ctk.CTkLabel(master=frame, text="Wynik: ")
-output_label.place(relx=0.37, rely=0.38, anchor=tk.CENTER)
+output_label.place(relx=0.38, rely=0.38, anchor=tk.CENTER)
+
 
 output_label = ctk.CTkLabel(master=frame, text="Przelicz na:")
 output_label.place(relx=0.2, rely=0.38, anchor=tk.CENTER)
-input_entry_2 = ctk.CTkEntry(master=frame, width=170, state='disable',textvariable=entry_variable, height=40)
-input_entry_2.place(relx=0.47, rely=0.46, anchor=tk.CENTER)
-currency_combobox_2 = ttk.Combobox(frame, values=currency_options, width=7, height=10, font=("Arial", 14)) 
+
+
+convercy_output_entrybox = ctk.CTkEntry(master=frame, width=170, state='disable',textvariable=entry_variable, height=40)
+convercy_output_entrybox.place(relx=0.47, rely=0.46, anchor=tk.CENTER)
+
+
+currency_combobox_2 = ttk.Combobox(frame, values=currency_options, width=7, height=10, font=("Arial", 14), state="readonly") 
 currency_combobox_2.place(relx=0.227, rely=0.46, anchor=ctk.CENTER)
 
 
@@ -190,9 +224,18 @@ clear_button = ctk.CTkButton(frame, text="Wyczyść", command=clearFunction, cor
 clear_button.place(relx=0.85, rely=0.46, anchor=tk.CENTER)
 
 
-switch_button = ctk.CTkSwitch(frame, text='Color Mode', command=change_color_mode)
-switch_button.place(relx=0.2, rely = 0.9, anchor=tk.CENTER)
+color_switch_button = ctk.CTkSwitch(frame, text='Color Mode', command=change_color_mode)
+color_switch_button.place(relx=0.2, rely = 0.9, anchor=tk.CENTER)
+
+
+connection_status_label = ctk.CTkLabel(master=frame, text = "Status połączenia: ", font=("Arial", 13))
+connection_status_label.place(relx=0.8, rely=0.9, anchor=tk.CENTER)
+
+internet_connection_label(frame)
 
 app.mainloop()
 
 
+  # sprawdzać stan połączenia co 5 sekund i aktualizować stan buttona z tekstem "Przelicz waluty"
+  # posegregować labele od innych widgetów 
+  # zmienić na lepsze nazwy zmiennych
