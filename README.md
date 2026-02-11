@@ -1,3 +1,4 @@
+![logo aplikacji Currency Exchange](images/app_logo_long.png)
 # 💱 Currency Exchange
 
 **Currency Exchange** to aplikacja napisana w Pythonie, która umożliwia szybkie i proste przeliczanie walut na podstawie aktualnych kursów.  
@@ -43,5 +44,5 @@ Całość odbywa się szybko i w przejrzysty sposób.
 
 ```bash
 git clone https://github.com/twoj-login/currency-exchange.git
-cd currency-exchange
+cd currency-exchange-app
 python main.py

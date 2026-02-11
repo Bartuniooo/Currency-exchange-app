@@ -12,7 +12,7 @@ ctk.deactivate_automatic_dpi_awareness()
 
 app = ctk.CTk()
 app.title("Currency App")
-app.iconbitmap('dollar.ico')
+app.iconbitmap('images/dollar.ico')
 app.geometry("750x450")
 
 mode = 'dark'

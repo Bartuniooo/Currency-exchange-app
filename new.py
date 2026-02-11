@@ -44,7 +44,7 @@ def check_and_destory(frame, app):
 
 app = ctk.CTk()
 app.title("Currency App")
-app.iconbitmap('dollar.ico')
+app.iconbitmap('./images/dollar.ico')
 app.geometry("750x450")
 
 values = ["USD", "EUR", "GBP", "PLN", "CHF", "NOK", "SEK", "CZK", "CNY", "JPY", "AUD", "CAD"]
