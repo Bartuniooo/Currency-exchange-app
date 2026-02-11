@@ -1,48 +1,50 @@
-![logo aplikacji Currency Exchange](images/app_logo_long.png)
-# 💱 Currency Exchange
+![Currency Exchange App Logo](images/app_logo_long.png)
 
-**Currency Exchange** to aplikacja napisana w Pythonie, która umożliwia szybkie i proste przeliczanie walut na podstawie aktualnych kursów.  
-Projekt powstał z myślą o automatyzacji codziennych obliczeń finansowych oraz jako element mojego **portfolio developerskiego**.
+# 💱 Currency Exchange App
 
-Bez ręcznego liczenia, bez googlowania kursów — wpisujesz kwotę, wybierasz waluty i gotowe 💸
+Currency Exchange is a desktop application built in Python that allows users to quickly convert currencies using real-time exchange rates retrieved from an external API.
 
----
-
-## 🚀 Funkcjonalności
-
-- 💱 **Przeliczanie walut w czasie rzeczywistym**
-- 🌍 Obsługa wielu walut (np. PLN, EUR, USD, GBP)
-- 🔄 Wybór waluty źródłowej i docelowej
-- 🧮 Dokładne obliczenia z uwzględnieniem kursów
-- 📊 Czytelna prezentacja wyników
-- 🐍 Aplikacja napisana w **Pythonie**
+The project was developed as part of an academic Python course and as a portfolio project to demonstrate API integration, GUI development, and clean application structure.
 
 ---
 
-## 🧩 Jak działa aplikacja?
+## 🚀 Features
 
-1. Użytkownik podaje kwotę
-2. Wybiera walutę bazową oraz walutę docelową
-3. Aplikacja pobiera aktualne kursy
-4. Wyświetlany jest wynik przeliczenia
-
-Całość odbywa się szybko i w przejrzysty sposób.
-
----
-
-## 🛠️ Technologie
-
-- **Python**
-- (opcjonalnie – w zależności od implementacji)
-  - requests
-  - API do kursów walut (np. NBP / exchangerate API)
-  - JSON
+- Real-time currency conversion
+- Support for multiple currencies (PLN, EUR, USD, GBP, CHF, CNY, and others)
+- Selection of base and target currencies
+- Accurate calculations based on live exchange rate data
+- Clear and user-friendly graphical interface
+- Error handling for invalid input and API connection issues
 
 ---
 
-## 📦 Instalacja i uruchomienie
+## 🧩 How It Works
+
+1. The user selects a base currency and a target currency.
+2. The user enters the amount to convert.
+3. The application sends a request to an exchange rate API.
+4. The converted value is calculated and displayed in the interface.
+
+The application separates business logic from the GUI layer to maintain code clarity and scalability.
+
+---
+
+## 🛠 Tech Stack
+
+- Python
+- tkinter with modern theme for componentsV
+- customtkinter (modern UI styling)
+- Exchange Rate API (external REST API integration)
+- Requests library (HTTP communication)
+
+---
+
+## 📦 Installation & Running
 
 ```bash
-git clone https://github.com/twoj-login/currency-exchange.git
+git clone https://github.com/your-username/currency-exchange-app.git
 cd currency-exchange-app
+pip install -r requirements.txt
 python main.py
+```
