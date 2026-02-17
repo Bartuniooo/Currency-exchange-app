@@ -11,7 +11,7 @@ Bez ręcznego liczenia, bez googlowania kursów — wpisujesz kwotę, wybierasz 
 ## 🚀 Funkcjonalności
 
 - 💱 **Przeliczanie walut w czasie rzeczywistym**
-- 🌍 Obsługa wielu walut (np. PLN, EUR, USD, GBP)
+- 🌍 Obsługa wielu walut (np. PLN, EUR, USD, GBP i wiele innych z całego świata)
 - 🔄 Wybór waluty źródłowej i docelowej
 - 🧮 Dokładne obliczenia z uwzględnieniem kursów
 - 📊 Czytelna prezentacja wyników
