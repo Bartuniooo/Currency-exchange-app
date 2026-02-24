@@ -40,6 +40,16 @@ The application separates business logic from the GUI layer to maintain code cla
 
 ---
 
+## 🧠 What I learned
+
+---
+
+## ⏩ Demo
+
+video
+
+---
+
 ## 📦 Installation & Running
 
 ```bash
