@@ -51,6 +51,7 @@ def internet_connection():
             return "Offline"
         
 
+
 def internet_connection_label(frame_name):
     online_status_text = internet_connection()
     online_status = ctk.CTkLabel(master=frame, text = online_status_text)
@@ -68,18 +69,23 @@ def internet_connection_label(frame_name):
 
 
 def convert_with_API(base_currency, converted_currency, amount):
-    # Where base_currency is the  currency you want to use, converted_currency is the currency that you want to convert to
     load_dotenv()
-    url = os.getenv("API_KEY")
-    
+    apiKey = os.getenv("API_KEY")
+    url = f"https://v6.exchangerate-api.com/v6/{apiKey}/pair/{base_currency}/{converted_currency}"
+
     response = requests.get(url)
-    # Convert data
-    data = response.json() # converts JSON content into Python-readable content
-    # Extract keys from data
-    conversion_rate = float(data.get("conversion_rate")) # Gets value of key 'conversion_rate' from data
-    last_time_update = data.get("time_last_update_utc") # Gets value of key 'time_last_update_utc' from data
-    # Converts amount to another currency
-    new_amount = amount * conversion_rate
+    data = response.json() 
+
+    if response.status_code != 200:
+        raise Exception(f"API request failed: {response.status_code} {response.text}")    
+
+    conversion_rate = data.get("conversion_rate") 
+    last_time_update = data.get("time_last_update_utc") 
+
+    if conversion_rate is None:
+        raise Exception(f"Conversion rate not found in response: {data}")
+    
+    new_amount = amount * float(conversion_rate)
     return new_amount
 
 
@@ -98,30 +104,37 @@ def currency_convert():
         my_label.configure(text="NIE podano kwoty!")
         my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
         app.after(2000, lambda: my_label.destroy()) 
+
     else:
         float_amount = float(amount)
+
         if float_amount < 0:
             my_label = ctk.CTkLabel(frame, font=("Arial", 18))
             my_label.configure(text="Kwota NIE może być mniejsza od 0!")
             my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
             app.after(2000, lambda: my_label.destroy()) 
+
         else:
             if requests_counter > 400:   #1400
                 my_label = ctk.CTkLabel(frame, font=("Arial", 18), text_color="red")
                 my_label.configure(text="Przekroczono limit zapytań ! ")
                 my_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
                 app.after(2000, lambda: my_label.destroy()) 
+
             else:
                 my_label = ctk.CTkLabel(frame, font=("Arial", 18))
                 my_label.configure(text="Przeliczono")
                 my_label.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
                 app.after(2000, lambda: my_label.destroy()) 
+
                 result = convert_with_API(base_currency, convert_currency, float_amount)
                 entry_variable.set(result)
                 requests_counter += 1
+
                 # Zapisanie zaktualizowanej wartości requests_counter do pliku
                 with open("request_counter.pkl", "wb") as file:
                     pickle.dump(requests_counter, file)
+
                 requeest_label = ctk.CTkLabel(frame, text=f"Aktualna ilość zapytań API:  {requests_counter}")
                 requeest_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
                 app.after(2000, lambda: requeest_label.destroy()) 
@@ -148,10 +161,12 @@ def clearFunction():
     
 def change_color_mode():
     global mode
+    
     if mode == 'dark':
         ctk.set_appearance_mode("light")
         style.theme_use("forest-light")
         mode = "light"
+
     else:
         ctk.set_appearance_mode("dark")
         style.theme_use("forest-dark")
@@ -184,7 +199,7 @@ currency_options = [
 frame = ctk.CTkFrame(master=app, width=700, height=450)
 frame.pack(pady=25)
 
-main_label = ctk.CTkLabel(master=frame, text="Przelicznik walut", font=("Arial", 26), text_color="red")
+main_label = ctk.CTkLabel(master=frame, text="Sprawdź aktualny kurs", font=("Arial", 26), text_color="red")
 main_label.place(relx=0.5, rely=0.08, anchor=tk.CENTER)
 
 

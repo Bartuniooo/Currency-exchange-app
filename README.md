@@ -45,6 +45,5 @@ The application separates business logic from the GUI layer to maintain code cla
 ```bash
 git clone https://github.com/your-username/currency-exchange-app.git
 cd currency-exchange-app
-pip install -r requirements.txt
 python main.py
 ```
