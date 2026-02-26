@@ -127,7 +127,7 @@ def currency_convert():
                 app.after(2000, lambda: my_label.destroy()) 
 
                 result = convert_with_API(base_currency, convert_currency, float_amount)
-                entry_variable.set(result)
+                entry_variable.set(round(result, 2))
                 requests_counter += 1
 
                 # Zapisanie zaktualizowanej wartości requests_counter do pliku
@@ -234,7 +234,7 @@ currency_combobox_2 = ttk.Combobox(frame, values=currency_options, width=7, heig
 currency_combobox_2.place(relx=0.227, rely=0.46, anchor=ctk.CENTER)
 
 
-clear_button = ctk.CTkButton(frame, text="Wyczyść", command=clearFunction, corner_radius=50, fg_color='red', hover_color='orange')
+clear_button = ctk.CTkButton(frame, text="Wyczyść", command=clearFunction, corner_radius=50, fg_color="#ff582e", hover_color="#ff7957")
 clear_button.place(relx=0.85, rely=0.46, anchor=tk.CENTER)
 
 

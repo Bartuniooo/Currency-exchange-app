@@ -8,6 +8,12 @@ The project was developed as part of an academic Python course and as a portfoli
 
 ---
 
+<p align="center">
+  <img src="images/layout_1.png" width="30%" />
+  <img src="images/layout_2.png" width="30%" />
+  <img src="images/layout_3.png" width="30%" />
+</p>
+
 ## 🚀 Features
 
 - Real-time currency conversion
@@ -55,5 +61,5 @@ video
 ```bash
 git clone https://github.com/Bartuniooo/Currency-exchange-app.git
 cd Currency-exchange-app
-python main.py
+python appGUI.py
 ```
