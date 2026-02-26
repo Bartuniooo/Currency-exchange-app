@@ -53,7 +53,7 @@ video
 ## 📦 Installation & Running
 
 ```bash
-git clone https://github.com/your-username/currency-exchange-app.git
+git clone https://github.com/Bartuniooo/Currency-exchange-app.git
 cd currency-exchange-app
 python main.py
 ```
