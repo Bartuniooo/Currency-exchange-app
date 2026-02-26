@@ -1,4 +1,4 @@
-![Currency Exchange App Logo](images/app_logo_long.png)
+![Currency Exchange App Logo](images/app_logo_banner.png)
 
 # 💱 Currency Exchange App
 

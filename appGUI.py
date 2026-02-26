@@ -64,7 +64,6 @@ def internet_connection_label(frame_name):
     else:
         button.place_forget()
         button_disable.place(relx=0.85, rely=0.25, anchor=tk.CENTER)
-        online_status.configure(text_color="red", font=("Arial", 13))
 
 
 
