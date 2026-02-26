@@ -54,6 +54,6 @@ video
 
 ```bash
 git clone https://github.com/Bartuniooo/Currency-exchange-app.git
-cd currency-exchange-app
+cd Currency-exchange-app
 python main.py
 ```
