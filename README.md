@@ -8,12 +8,6 @@ The project was developed as part of an academic Python course and as a portfoli
 
 ---
 
-<p align="center">
-  <img src="images/layout_1.png" width="30%" />
-  <img src="images/layout_2.png" width="30%" />
-  <img src="images/layout_3.png" width="30%" />
-</p>
-
 ## 🚀 Features
 
 - Real-time currency conversion
@@ -48,12 +42,21 @@ The application separates business logic from the GUI layer to maintain code cla
 
 ## 🧠 What I learned
 
+- working with API 
+- customtkiner (and their limitations :) )
+- building apps in python 
+- tkinter theme
+- basic regEx
+
 ---
 
 ## ⏩ Demo
 
-video
-
+<p align="center">
+  <img src="images/layout_1.png" width="30%" />
+  <img src="images/layout_2.png" width="30%" />
+  <img src="images/layout_3.png" width="30%" />
+</p>
 ---
 
 ## 📦 Installation & Running
