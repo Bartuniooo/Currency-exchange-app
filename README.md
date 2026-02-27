@@ -61,8 +61,13 @@ The application separates business logic from the GUI layer to maintain code cla
 
 ## 📦 Installation & Running
 
+This application uses the ExchangeRate API.  
+Create a free account and generate your API key:  
+👉 https://www.exchangerate-api.com/
+
 ```bash
 git clone https://github.com/Bartuniooo/Currency-exchange-app.git
 cd Currency-exchange-app
+echo API_KEY=your_api_key > .env
 python appGUI.py
 ```
