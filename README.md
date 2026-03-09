@@ -57,6 +57,7 @@ The application separates business logic from the GUI layer to maintain code cla
   <img src="images/layout_2.png" width="30%" />
   <img src="images/layout_3.png" width="30%" />
 </p>
+
 ---
 
 ## 📦 Installation & Running
